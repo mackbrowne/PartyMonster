@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en" ng-app="myApp">
+<head>
+  <meta charset="utf-8">
+  <meta name="google-site-verification" content="Vg6uQuaFznCkPqfAUnUiOzV6J4E2hQsGcKvp-1DMVW8" />
+
+  <title>New DJ App</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.js"></script>
+  <script src="https://raw.github.com/timrwood/moment/1.7.0/moment.js"></script>
+      <!-- Le styles -->    
+  <link href="lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
+  <link href="lib/bootstrap/css/bootstrap-responsive.css" rel="stylesheet"> 
+  <link rel="stylesheet" href="css/app.css"/>
+</head>
+<body ng-controller="MainCtrl">
+ <!-- <ul class="menu">
+    <li><a href="#/view1">view1</a></li>
+    <li><a href="#/view2">view2</a></li>
+  </ul>
+
+  <div ng-view></div>
+
+  <div>Angular seed app: v<span app-version></span></div>-->
+
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+         <!-- <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a> -->
+          <a class="brand" href="#">Party Monster</a>
+          <div class="nav-collapse collapse" >
+            <p class="navbar-text pull-right" ng-show="currentUser()">
+              <img ng-src="{{currentUser().imageUrl}}" />
+              Logged in as <a href="#" class="navbar-link">{{currentUser().first_name}} {{currentUser().last_name}}</a>
+            </p>
+            <ul class="nav">
+              <li class="active"><a href="#">Profile</a></li>
+            <!--  <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>-->
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+
+
+        <div class="span7" id="FBevent">
+          <div class="hero-unit">
+            <h1>Event Checker</h1>
+            <div ng-show="currentUser()">
+              <div id="map_canvas" style="width:100%; height:100%"></div>
+              <div id="directionsPanel" style="float:right;width:30%;height 100%"></div>
+            </div>
+            <statusChecker><p>Finding your location: <span id="status">checking...</span> </p></statusChecker>
+          <div id="fb-root"></div>
+          <script>
+            window.fbAsyncInit = function() {
+              FB.init({
+                appId      : '412468092136093', // App ID
+                status     : true, // check login status
+                cookie     : true, // enable cookies to allow the server to access the session
+                xfbml      : true  // parse XFBML
+              });
+              // Additional initialization code here
+              FB.Event.subscribe('auth.authResponseChange', handleResponseChange);  
+            };
+
+            function handleResponseChange(response) {
+              document.body.className = response.authResponse ? 'connected' : 'not_connected';
+
+              if (response.authResponse) {
+                console.log(response);
+                var _scope = angular.element(jQuery('body')).scope();
+                _scope.updateUserInfo(response);
+              }
+            }
+            // Load the SDK Asynchronously
+            (function(d){
+               var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+               if (d.getElementById(id)) {return;}
+               js = d.createElement('script'); js.id = id; js.async = true;
+               js.src = "//connect.facebook.net/en_US/all.js";
+               ref.parentNode.insertBefore(js, ref);
+             }(document));
+          </script>
+          <div ng-hide="currentUser()">
+            <div class="fb-login-button" scope="email,user_checkins,user_events,friends_events,rsvp_event">Login with Facebook</div>
+          </div>
+
+         
+
+<!-- 
+          {{events()}} -->
+
+
+         <!-- <div id="user-info"></div>-->`
+          </div>
+         <!-- 
+          <div class="row-fluid">
+
+          </div>
+          <div class="row-fluid">
+
+          </div> -->
+  
+        </div><!--/span-->
+
+
+      <div class="span5">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li ng-repeat="event in events()| orderBy:'start_time':false">
+                <h5>{{event.name}}</h5>
+                <p>{{event.start_time | date:'short'}} - {{event.location}}</p>
+                <br/><br/>
+              </li>
+            </ul>
+          <!--
+           <ul class="nav nav-list">
+              <li class="nav-header">Sidebar</li>
+              <li class="active"><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li class="nav-header">Sidebar</li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li class="nav-header">Sidebar</li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+            </ul>-->
+          </div>
+        </div>
+
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <p>&copy; Company 2012</p>
+        <div class="btn-group">
+          <button class="btn" ngm-click="data()"></button>
+
+        </div>
+        Here is the data -   {{data}}
+      </footer>
+
+      <div id="bottomthing">
+
+
+       <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <style type="text/css">
+            html { height: 100% }
+
+            #map_canvas { height: 100%; margin: 0 auto }
+        </style>
+        
+        <script type="text/javascript"
+            src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true">
+        </script>
+        
+        <script type="text/javascript">
+            
+
+  
+ /*          
+
+               //add location markers to map
+               //initialize location list
+               var image = 'http://chart.apis.google.com/chart?chst=d_map_pin_icon&chld=bus|0EF010';
+               //var locs = ();
+               var links = "";
+               var url_arr = links.split(',');
+               var mark, i;
+
+               //add markers to map
+               for(i=0; i<locs.length; i++){
+   
+                   mark = new google.maps.Marker({
+                       position:  new google.maps.LatLng(locs[i][3], locs[i][4]),
+                       map: map,
+                       icon: image,
+                       title: locs[i][2]
+                   });
+                   
+                   google.maps.event.addListener(mark, 'click', (function(url_arr, i) {
+                       return function() {
+                           window.location = url_arr[i]; 
+                       }
+                   })(url_arr, i));
+               } 
+*/
+                
+            
+            
+
+            /*
+           function showSteps(directionResult) {
+              // For each step, place a marker, and add the text to the marker's
+              // info window. Also attach the marker to an array so we
+              // can keep track of it and remove it when calculating new
+              // routes.
+              var myRoute = directionResult.routes[0].legs[0];
+
+              for (var i = 0; i < myRoute.steps.length; i++) {
+                  var marker = new google.maps.Marker({
+                    position: myRoute.steps[i].start_point,
+                    map: map
+                  });
+                  attachInstructionText(marker, myRoute.steps[i].instructions);
+                  markerArray[i] = marker;
+              } 
+            } 
+
+            function attachInstructionText(marker, text) {
+              google.maps.event.addListener(marker, 'click', function() {
+                stepDisplay.setContent(text);
+                stepDisplay.open(map, marker);
+              });
+            }*/
+          /*  
+            function calcRoute(start){
+                 var request =  {
+                      origin: start,
+                      destination: "Grand Canyon National Park, AZ",
+                      provideRouteAlternatives: false,
+                      travelMode: google.maps.TravelMode.WALKING,
+                      unitSystem: google.maps.UnitSystem.METRIC
+                 };
+                 directionsService.route(request, function(response, status) {
+                    if (status == google.maps.DirectionsStatus.OK) {
+                      var warnings = document.getElementById("warnings_panel");
+                    //  warnings.innerHTML = "" + response.routes[0].warnings + "";
+                      directionsDisplay.setDirections(response);
+                      showSteps(response);
+                    }
+                });
+                
+                
+            }
+            
+            function setupDirections(){
+            // Create a renderer for directions and bind it to the map.
+                  var rendererOptions = {
+                    map: map
+                  };
+                directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions); 
+              
+                // Instantiate an info window to hold step text.
+                stepDisplay = new google.maps.InfoWindow();
+                   directionsDisplay.setMap(map);
+            }*/
+        </script> 
+        
+        
+    
+       
+      </div>
+
+    </div><!--/.fluid-container-->
+
+
+  <script src="js/app.js"></script>
+  <script src="js/services.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/directives.js"></script>
+
+
+</body>
+</html>
